@@ -1,11 +1,3 @@
-terraform {
-  backend "azurerm" {
-    resource_group_name  = "aks-rg-sa"
-    storage_account_name = "terraformstatefileaccoun"
-    container_name       = "tfstate"
-    key                  = "test.terraform.tfstate"
-  }
-}
 provider "azurerm" {
   features {}
 
