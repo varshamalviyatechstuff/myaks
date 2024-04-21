@@ -35,7 +35,10 @@ jobs:
     - name: Scale Application
       run: |
         kubectl scale deployment/hello-kubernetes --replicas=3 -n development
-    
+
+    - name: Wait for Pods to be ready
+      run: |
+        kubectl wait --for=condition=ready pod -l app=hello-kubernetes -n development --timeout=300s    
     - name: Fetch Pod Logs
       run: |
         kubectl logs -l app=hello-kubernetes -n development --all-containers=true > hello-kubernetes-logs.txt
