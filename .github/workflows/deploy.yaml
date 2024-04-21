@@ -31,4 +31,27 @@ jobs:
       run: |
         kubectl apply -f namespace.yaml
         kubectl apply -f deployment.yaml
-  
+
+    - name: Scale Application
+      run: |
+        kubectl scale deployment/hello-kubernetes --replicas=3 -n development
+    
+    - name: Fetch Pod Logs
+      run: |
+        kubectl logs -l app=hello-kubernetes -n development --all-containers=true > hello-kubernetes-logs.txt
+    
+    - name: Fetch Pod Events
+      run: |
+        kubectl get events -n development --field-selector involvedObject.kind=Pod > hello-kubernetes-events.txt
+    
+    - name: Upload Logs
+      uses: actions/upload-artifact@v2
+      with:
+        name: hello-kubernetes-logs
+        path: hello-kubernetes-logs.txt
+    
+    - name: Upload Events
+      uses: actions/upload-artifact@v2
+      with:
+        name: hello-kubernetes-events
+        path: hello-kubernetes-events.txt 
